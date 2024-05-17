@@ -1,6 +1,8 @@
 package com.example.demo;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatusCode;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -23,6 +25,11 @@ public class Controller {
     public String getCPIData() {
         String cpiApiUrl = "https://api.bls.gov/publicAPI/v2/timeseries/data/CUUR0000SA0L1E";
         ResponseEntity<String> response = restTemplate.getForEntity(cpiApiUrl, String.class);
-        return response.getBody();
+        String body = response.getBody();
+        MediaType contentType = response.getHeaders().getContentType();
+        System.out.println(contentType);
+        HttpStatusCode statusCode = response.getStatusCode();
+        System.out.println(statusCode);
+        return body;
     }
 }
